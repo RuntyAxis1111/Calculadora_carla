@@ -1,0 +1,371 @@
+/* style.css */
+:root {
+  /* Fuente principal (sin cambios) */
+  font-family: 'Montserrat', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Variables de diseño */
+  --gap: 20px; /* Aumentamos el espacio base */
+  --main-bg-color: #f9f9f9; /* Fondo general ligeramente gris */
+  --panel-bg-color: #FFFFFF; /* Paneles blancos */
+  --panel-border-color: #e0e0e0; /* Borde sutil para paneles */
+  --panel-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Sombra más suave */
+  --header-bg-color: #FFD600; /* Amarillo HBL */
+  --header-text-color: #000000; /* Texto negro */
+  --button-bg-color: var(--header-bg-color);
+  --button-text-color: var(--header-text-color);
+  --button-hover-bg-color: #e6c200; /* Amarillo más oscuro para hover */
+  --input-border-color: #ccc;
+  --input-focus-border-color: var(--header-bg-color); /* Borde amarillo al enfocar */
+  --input-focus-shadow: 0 0 0 3px rgba(255, 214, 0, 0.3); /* Glow amarillo al enfocar */
+  --result-bg-color: #f0f0f0; /* Fondo del resultado */
+  --result-text-color: #333;
+  --result-highlight-color: var(--header-bg-color); /* Color para destacar resultado */
+  --deduccion-bg-color: #f5f5f5; /* Fondo para bloques ISR/IMSS */
+  --deduccion-border-color: #e8e8e8;
+  --deduccion-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  --container-max-width: 1200px;
+  --border-radius: 12px; /* Bordes más redondeados */
+  --transition-duration: 0.25s;
+  --animation-duration: 0.5s;
+  --animation-short-duration: 0.3s; /* Duración para animaciones cortas */
+}
+
+/* Animación para aparición suave de paneles */
+@keyframes fadeInSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animación para resaltar resultado */
+@keyframes highlightResult {
+  0% { background-color: var(--result-bg-color); transform: scale(1); }
+  50% { background-color: var(--result-highlight-color); transform: scale(1.03); }
+  100% { background-color: var(--result-bg-color); transform: scale(1); }
+}
+
+/* NUEVO: Animación para aparición suave de detalles ISR/IMSS */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--main-bg-color);
+  color: #333; /* Color de texto base más oscuro */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Styles */
+.main-header {
+  background-color: var(--header-bg-color);
+  color: var(--header-text-color);
+  padding: 1em var(--gap);
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra ligera al header */
+}
+
+.main-header h1 {
+  margin: 0;
+  font-size: 1.6em; /* Ligeramente más grande */
+  font-weight: 700;
+}
+
+/* Contenedor principal de la calculadora */
+.calculator-container {
+  display: flex;
+  flex-wrap: wrap; /* Permite envolver en pantallas pequeñas */
+  justify-content: center; /* Centra los paneles */
+  padding: calc(var(--gap) * 1.5) var(--gap); /* Más padding vertical */
+  gap: var(--gap); /* Espacio entre paneles */
+  flex-grow: 1;
+  width: 100%;
+  max-width: var(--container-max-width); /* Ancho máximo */
+  margin: 0 auto; /* Centrado horizontal */
+  box-sizing: border-box;
+}
+
+/* Estilo de los paneles (Cards) */
+.calculator-panel {
+  background-color: var(--panel-bg-color);
+  border: 1px solid var(--panel-border-color);
+  border-radius: var(--border-radius);
+  padding: calc(var(--gap) * 1.5); /* Padding interno generoso */
+  box-shadow: var(--panel-shadow);
+  flex: 1 1 400px; /* Crece/decrece, base 400px */
+  min-width: 300px; /* Ancho mínimo */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  /* Aplicar animación de entrada */
+  opacity: 0; /* Inicialmente invisible */
+  animation: fadeInSlideUp var(--animation-duration) ease-out forwards;
+  /* Retraso escalonado para la animación (opcional, se puede ajustar) */
+}
+/* Retraso para el segundo panel */
+.calculator-panel:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+
+.calculator-panel h2 {
+  margin-top: 0;
+  margin-bottom: var(--gap);
+  color: var(--header-text-color); /* Texto negro */
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.3em;
+  padding-bottom: 0.6em;
+  border-bottom: 1px solid var(--panel-border-color);
+  display: flex; /* Para alinear icono y texto */
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Espacio entre icono y texto */
+}
+
+.calculator-panel h2 .icon {
+  font-size: 1.1em; /* Tamaño del icono */
+}
+
+.calculator-content {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--gap) * 0.8); /* Espacio interno ajustado */
+  flex-grow: 1; /* Ocupa espacio vertical */
+}
+
+.calculator-content label {
+  font-weight: bold;
+  margin-bottom: -5px; /* Menos espacio debajo de la etiqueta */
+  color: #555; /* Color de etiqueta más suave */
+  font-size: 0.95em;
+}
+
+.calculator-content input[type="number"] {
+  padding: 0.8em 1em; /* Padding interno del input */
+  border: 1px solid var(--input-border-color);
+  border-radius: calc(var(--border-radius) / 2); /* Bordes redondeados más sutiles */
+  font-size: 1em;
+  font-family: inherit;
+  box-sizing: border-box;
+  width: 100%;
+  transition: border-color var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+}
+
+/* Estilo Hover para Inputs */
+.calculator-content input[type="number"]:hover {
+  border-color: #a0a0a0; /* Borde ligeramente más oscuro al pasar el mouse */
+}
+
+/* Estilo Focus para Inputs (Accesibilidad) */
+.calculator-content input[type="number"]:focus {
+  outline: none; /* Quitar outline por defecto */
+  border-color: var(--input-focus-border-color);
+  box-shadow: var(--input-focus-shadow);
+}
+
+/* Ocultar flechas en input number (opcional) */
+.calculator-content input[type=number]::-webkit-outer-spin-button,
+.calculator-content input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.calculator-content input[type=number] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+.calculator-content button {
+  padding: 0.9em 1.8em; /* Padding del botón */
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border: none;
+  border-radius: calc(var(--border-radius) / 2);
+  font-size: 1em;
+  font-weight: bold;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color var(--transition-duration) ease, transform var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+  align-self: center;
+  margin-top: auto; /* Empuja el botón hacia abajo */
+  display: flex; /* Para alinear icono y texto */
+  align-items: center;
+  gap: 8px; /* Espacio entre icono y texto */
+}
+
+/* Estilo Hover para Botones */
+.calculator-content button:hover {
+  background-color: var(--button-hover-bg-color);
+  transform: translateY(-2px); /* Ligero levantamiento */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15); /* Sombra al hacer hover */
+}
+
+/* Estilo Focus para Botones (Accesibilidad) */
+.calculator-content button:focus {
+  outline: none; /* Quitar outline por defecto */
+  box-shadow: var(--input-focus-shadow); /* Usar el mismo glow que los inputs */
+}
+
+/* Estilo Active (cuando se hace clic) */
+.calculator-content button:active {
+    transform: translateY(0px); /* Vuelve a la posición original */
+    box-shadow: none; /* Quitar sombra al hacer clic */
+}
+
+/* NUEVO: Estilos para el contenedor de detalles ISR/IMSS */
+.deducciones-container {
+  display: flex;
+  flex-wrap: wrap; /* Permite envolver en pantallas pequeñas */
+  gap: calc(var(--gap) * 0.75); /* Espacio entre bloques ISR/IMSS */
+  margin-top: var(--gap); /* Espacio arriba del contenedor */
+  margin-bottom: calc(var(--gap) * 0.5); /* Espacio debajo, antes del resultado neto */
+}
+
+/* NUEVO: Estilos para cada bloque de detalle (ISR/IMSS) */
+.deduccion-item {
+  flex: 1 1 calc(50% - var(--gap) * 0.375); /* Ocupa mitad del espacio menos el gap */
+  background-color: var(--deduccion-bg-color);
+  border: 1px solid var(--deduccion-border-color);
+  border-radius: calc(var(--border-radius) / 1.5); /* Bordes un poco menos redondeados */
+  padding: calc(var(--gap) * 0.75);
+  box-shadow: var(--deduccion-shadow);
+  text-align: center;
+  min-width: 120px; /* Ancho mínimo para evitar que se aplasten mucho */
+  box-sizing: border-box;
+  opacity: 0; /* Inicialmente oculto para animación */
+  transition: opacity var(--animation-short-duration) ease-out; /* Transición suave */
+}
+
+/* NUEVO: Clase para animar la aparición de los detalles */
+.deduccion-item.visible {
+  opacity: 1;
+  animation: fadeIn var(--animation-short-duration) ease-out forwards;
+}
+
+.deduccion-titulo {
+  margin: 0 0 0.4em 0;
+  font-weight: bold;
+  color: var(--result-text-color);
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px; /* Espacio entre icono y texto del título */
+}
+
+.deduccion-titulo .icon {
+  font-size: 1em; /* Tamaño del icono del detalle */
+}
+
+.deduccion-valor {
+  font-size: 1.3em; /* Tamaño del valor ISR/IMSS */
+  font-weight: 700;
+  color: var(--header-text-color);
+  display: block;
+  min-height: 1.2em; /* Evita saltos */
+}
+/* FIN NUEVO */
+
+
+.resultado-display {
+  margin-top: var(--gap);
+  padding: var(--gap);
+  background-color: var(--result-bg-color);
+  border-radius: calc(var(--border-radius) / 2);
+  text-align: center;
+  border: 1px solid #e0e0e0;
+}
+
+/* Clase para animar el resultado */
+.resultado-display.highlight {
+  animation: highlightResult calc(var(--animation-duration) * 1.5) ease-in-out;
+}
+
+.resultado-display p {
+  margin: 0 0 0.5em 0;
+  font-weight: bold;
+  color: var(--result-text-color);
+  font-size: 0.9em;
+  text-transform: uppercase; /* Texto en mayúsculas */
+  letter-spacing: 0.5px;
+}
+
+.resultado-display .monto-resultado {
+  font-size: 1.8em; /* Resultado más grande */
+  font-weight: 700;
+  color: var(--header-text-color); /* Color principal (negro) */
+  display: block; /* Asegura que ocupe su línea */
+  min-height: 1.2em; /* Evita saltos de layout si el resultado está vacío */
+}
+
+
+/* --- RESPONSIVE ADJUSTMENTS --- */
+
+@media (max-width: 768px) {
+  body {
+     /* Permitir scroll si es necesario en móvil */
+     overflow-y: auto;
+  }
+  .calculator-container {
+    flex-direction: column; /* Apila los paneles */
+    align-items: stretch; /* Estira los paneles */
+    padding: var(--gap); /* Padding estándar en móvil */
+  }
+
+  .calculator-panel {
+    flex-basis: auto; /* Ancho automático */
+    min-width: unset; /* Remueve ancho mínimo */
+    width: 100%; /* Ocupa todo el ancho */
+    margin-bottom: var(--gap); /* Espacio entre paneles apilados */
+    /* Resetear animación para que funcione bien al apilarse */
+    opacity: 0;
+    animation: fadeInSlideUp var(--animation-duration) ease-out forwards;
+  }
+  .calculator-panel:last-child {
+      margin-bottom: 0;
+  }
+  /* Asegurar que la animación escalonada también se aplique en móvil */
+   .calculator-panel:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+
+
+  .calculator-content button {
+      width: 100%; /* Botón ocupa todo el ancho */
+      padding: 1em 1.5em; /* Ajustar padding en móvil */
+      margin-top: var(--gap); /* Asegura espacio arriba del botón */
+  }
+
+  .main-header h1 {
+    font-size: 1.3em; /* Título más pequeño en móvil */
+  }
+
+  .resultado-display .monto-resultado {
+    font-size: 1.6em; /* Resultado ligeramente más pequeño en móvil */
+  }
+
+  /* NUEVO: Ajuste responsivo para bloques ISR/IMSS */
+  .deduccion-item {
+    flex-basis: 100%; /* Ocupa todo el ancho en pantallas pequeñas */
+  }
+  /* FIN NUEVO */
+}

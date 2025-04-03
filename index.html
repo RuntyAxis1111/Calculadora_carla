@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HBL - Calculadora para negociaciones</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header principal -->
+  <header class="main-header">
+    <h1>HBL - Calculadora para negociaciones</h1>
+  </header>
+
+  <!-- Contenedor principal para los paneles de la calculadora -->
+  <div class="calculator-container">
+
+    <!-- Panel 1: Sueldo Bruto a Neto -->
+    <section class="calculator-panel" id="bruto-a-neto">
+      <!-- Título con icono (Unicode) -->
+      <h2><span class="icon">📥</span> Sueldo Bruto a Neto</h2>
+      <div class="calculator-content">
+        <label for="sueldo-bruto">Sueldo Bruto Mensual:</label>
+        <input type="number" id="sueldo-bruto" placeholder="Ej: 30000" step="any" min="0">
+        <!-- Botón con icono (Unicode) -->
+        <button id="btn-calcular-neto"><span class="icon">✔️</span> Calcular Neto</button>
+
+        <!-- NUEVO: Contenedor para detalles de ISR e IMSS -->
+        <div class="deducciones-container" id="deducciones-detalle">
+          <div class="deduccion-item" id="detalle-isr">
+            <p class="deduccion-titulo"><span class="icon">🧾</span> ISR</p>
+            <span class="deduccion-valor" id="isr-calculado">-</span>
+          </div>
+          <div class="deduccion-item" id="detalle-imss">
+            <p class="deduccion-titulo"><span class="icon">🏥</span> IMSS</p>
+            <span class="deduccion-valor" id="imss-calculado">-</span>
+          </div>
+        </div>
+        <!-- FIN NUEVO -->
+
+        <div class="resultado-display" id="resultado-neto">
+          <p>Sueldo Neto Estimado:</p>
+          <span class="monto-resultado" id="neto-calculado">-</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Panel 2: Sueldo Neto a Bruto -->
+    <section class="calculator-panel" id="neto-a-bruto">
+      <!-- Título con icono (Unicode) -->
+      <h2><span class="icon">📤</span> Sueldo Neto a Bruto</h2>
+      <div class="calculator-content">
+        <label for="sueldo-neto">Sueldo Neto Deseado:</label>
+        <input type="number" id="sueldo-neto" placeholder="Ej: 25000" step="any" min="0">
+         <!-- Botón con icono (Unicode) -->
+        <button id="btn-calcular-bruto"><span class="icon">✔️</span> Calcular Bruto</button>
+        <div class="resultado-display" id="resultado-bruto">
+          <p>Sueldo Bruto Aproximado:</p>
+          <span class="monto-resultado" id="bruto-calculado">-</span>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Script de cálculo (actualizado para animación y detalles ISR/IMSS) -->
+  <script src="script.js" defer></script>
+</body>
+</html>
